@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memorama Mundial 2026</title>
+    <title>Mundial Fríos 2026 - Memorama</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a365d 0%, #000000 100%);
+            background: #e9d5ff; /* Color lila de fondo */
             min-height: 100vh;
-            color: white;
+            color: #4c1d95; /* Morado oscuro para contraste */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -45,31 +45,35 @@
             align-items: center;
             justify-content: center;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 10px rgba(76, 29, 149, 0.15);
         }
 
+        /* Reverso de la carta: Blanco con gota morada */
         .card-front {
-            background: linear-gradient(45deg, #2563eb, #ef4444); /* Colores USA/MX */
+            background-color: #ffffff;
+            border: 2px solid #ddd6fe;
             transform: rotateY(0deg);
         }
 
         .card-front::after {
-            content: "⚽";
-            font-size: 2rem;
-            opacity: 0.3;
+            content: "💧";
+            font-size: 2.8rem;
+            /* Aplicamos un filtro para que la gota se vea morada */
+            filter: sepia(1) saturate(10) hue-rotate(240deg);
         }
 
+        /* Cara de la carta (Símbolo del mundial) */
         .card-back {
-            background-color: #ffffff;
-            color: #1a365d;
+            background-color: #f3f4f6;
+            color: #581c87;
             transform: rotateY(180deg);
+            border: 2px solid #7c3aed;
         }
 
         .card.matched .card-back {
-            background-color: #10b981;
+            background-color: #7c3aed;
             color: white;
-            border-color: #059669;
+            border-color: #5b21b6;
         }
 
         .grid-layout {
@@ -91,30 +95,30 @@
             position: fixed;
             width: 10px;
             height: 10px;
-            background-color: #f00;
             z-index: 100;
         }
 
         .stats-panel {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 15px 30px;
             margin-bottom: 20px;
             display: flex;
             gap: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            color: #581c87;
         }
 
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(88, 28, 135, 0.4);
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
         }
 
         .modal.show {
@@ -126,14 +130,14 @@
 
     <header class="text-center mt-8 mb-4 px-4">
         <h1 class="text-4xl md:text-5xl font-800 tracking-tighter uppercase italic">
-            Mundial <span class="text-blue-500">20</span><span class="text-red-500">26</span>
+            Mundial <span class="text-purple-700 font-extrabold">Fríos 2026</span>
         </h1>
-        <p class="text-gray-400 font-semibold tracking-widest mt-1">MEMORAMA CHALLENGE</p>
+        <p class="text-purple-600 font-semibold tracking-widest mt-1 opacity-80">EDICIÓN ESPECIAL</p>
     </header>
 
     <div class="stats-panel text-sm md:text-lg">
-        <div>Movimientos: <span id="moves" class="font-bold text-yellow-400">0</span></div>
-        <div>Tiempo: <span id="timer" class="font-bold text-yellow-400">00:00</span></div>
+        <div>Movimientos: <span id="moves" class="font-bold">0</span></div>
+        <div>Tiempo: <span id="timer" class="font-bold">00:00</span></div>
     </div>
 
     <main class="grid-layout" id="game-board">
@@ -141,26 +145,26 @@
     </main>
 
     <div class="mt-8 mb-12">
-        <button onclick="resetGame()" class="bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-yellow-400 transition-colors shadow-lg">
+        <button onclick="resetGame()" class="bg-purple-700 text-white font-bold py-3 px-8 rounded-full hover:bg-purple-800 transition-all shadow-lg active:scale-95">
             REINICIAR JUEGO
         </button>
     </div>
 
     <!-- Modal de Victoria -->
     <div id="victory-modal" class="modal px-4">
-        <div class="bg-white text-black p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
-            <h2 class="text-3xl font-bold mb-2">¡CAMPEÓN! 🏆</h2>
-            <p class="text-gray-600 mb-6" id="victory-text"></p>
-            <button onclick="closeModal()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-all">
-                JUGAR DE NUEVO
+        <div class="bg-white text-purple-900 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
+            <h2 class="text-3xl font-bold mb-2">¡MUY FRÍO! 🧊</h2>
+            <p class="text-purple-700 mb-6" id="victory-text"></p>
+            <button onclick="closeModal()" class="w-full bg-purple-600 text-white font-bold py-3 rounded-xl hover:bg-purple-700 transition-all">
+                VOLVER A JUGAR
             </button>
         </div>
     </div>
 
     <script>
         const symbols = [
-            '🏆', '⚽', '🇲🇽', '🇺🇸', '🇨🇦', '🏟️', '🧤', '👟',
-            '🏆', '⚽', '🇲🇽', '🇺🇸', '🇨🇦', '🏟️', '🧤', '👟'
+            '🏆', '⚽', '🇲🇽', '🇺🇸', '🇨🇦', '🧤', '❄️', '🧊',
+            '🏆', '⚽', '🇲🇽', '🇺🇸', '🇨🇦', '🧤', '❄️', '🧊'
         ];
 
         let flippedCards = [];
@@ -202,7 +206,6 @@
         function flipCard(card) {
             if (isLocked || card.classList.contains('flipped') || card.classList.contains('matched')) return;
 
-            // Iniciar timer en el primer movimiento
             if (moves === 0 && flippedCards.length === 0) startTimer();
 
             card.classList.add('flipped');
@@ -237,7 +240,7 @@
                     card2.classList.remove('flipped');
                     flippedCards = [];
                     isLocked = false;
-                }, 1000);
+                }, 800);
             }
         }
 
@@ -255,7 +258,7 @@
             clearInterval(timerInterval);
             const timeStr = document.getElementById('timer').textContent;
             document.getElementById('victory-text').innerHTML = `
-                Completaste el reto en <b>${moves}</b> movimientos y un tiempo de <b>${timeStr}</b>.
+                Dominaste el campo en <b>${moves}</b> movimientos.<br>Tiempo: <b>${timeStr}</b>.
             `;
             setTimeout(() => {
                 document.getElementById('victory-modal').classList.add('show');
@@ -281,30 +284,31 @@
         }
 
         function createConfetti() {
-            for (let i = 0; i < 50; i++) {
+            const colors = ['#a78bfa', '#7c3aed', '#ffffff', '#c4b5fd'];
+            for (let i = 0; i < 60; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = ['#2563eb', '#ef4444', '#ffffff', '#fbbf24'][Math.floor(Math.random()*4)];
+                confetti.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
                 confetti.style.top = '-10px';
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.width = Math.random() * 8 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.borderRadius = '2px';
                 document.body.appendChild(confetti);
 
                 const animation = confetti.animate([
                     { transform: `translate3d(0,0,0) rotate(0deg)`, opacity: 1 },
-                    { transform: `translate3d(${(Math.random() - 0.5) * 200}px, 100vh, 0) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+                    { transform: `translate3d(${(Math.random() - 0.5) * 250}px, 100vh, 0) rotate(${Math.random() * 1000}deg)`, opacity: 0 }
                 ], {
-                    duration: 2000 + Math.random() * 3000,
-                    easing: 'cubic-bezier(0, .9, .57, 1)'
+                    duration: 3000 + Math.random() * 2000,
+                    easing: 'ease-out'
                 });
 
                 animation.onfinish = () => confetti.remove();
             }
         }
 
-        // Inicializar el juego
         window.onload = createBoard;
-
     </script>
 </body>
 </html>
